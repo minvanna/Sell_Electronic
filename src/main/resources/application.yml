@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/Sell_Electronic
+    username: sell_electronic
+    password: abc@123
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
