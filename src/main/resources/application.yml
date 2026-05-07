@@ -6,8 +6,47 @@ spring:
     url: jdbc:postgresql://localhost:5433/Sell_Electronic
     username: sell_electronic
     password: abc@123
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  # Image Upload Config
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+      file-size-threshold: 2KB
+
+  # Serve static files from uploads folder
+  web:
+    resources:
+      static-locations:
+        - classpath:/static/
+        - file:uploads/
+      cache:
+        period: 0
+
+# Custom properties
+app:
+  upload:
+    dir: uploads/products/
+  base-url: http://localhost:8080
+
+logging:
+  level:
+    com.shopping.example: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

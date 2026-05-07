@@ -1,10 +1,11 @@
 package com.shopping.example.Sell_Eletronic.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 import com.shopping.example.Sell_Eletronic.entity.Product;
 import com.shopping.example.Sell_Eletronic.service.ProductService;
 
@@ -13,36 +14,50 @@ import com.shopping.example.Sell_Eletronic.service.ProductService;
 public class ProductController {
 
     @Autowired
-    private ProductService service;
+    private ProductService productService;  
 
-    // Show All Products
+
     @GetMapping
-    public List<Product> getAll() {
-        return service.getAll();
+    public ResponseEntity<List<Product>> getAll() {
+        return ResponseEntity.ok(productService.getAll());
     }
 
-    // Find Product By Id
     @GetMapping("/{id}")
-    public Product getById(@PathVariable Long id) {
-        return service.getById(id);
+    public ResponseEntity<Product> getById(@PathVariable Long id) {
+        Product product = productService.getById(id);
+        if (product == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(product);
     }
 
-    // Add Product
     @PostMapping
-    public Product save(@RequestBody Product product) {
-        return service.save(product);
+    public ResponseEntity<Product> save(@RequestBody Product product) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
     }
 
-    // Update Product
     @PutMapping("/{id}")
-    public Product update(@PathVariable Long id,
-                          @RequestBody Product product) {
-        return service.update(id, product);
+    public ResponseEntity<Product> update(@PathVariable Long id,
+                                          @RequestBody Product product) {
+        Product updated = productService.update(id, product);
+        if (updated == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(updated);
     }
 
-    // Delete Product
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
-        return service.delete(id);
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.delete(id));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> search(@RequestParam String keyword) {
+        return ResponseEntity.ok(productService.search(keyword));
+    }
+    
+    
+    @PostMapping("/{id}/upload-image")
+    public ResponseEntity<Product> uploadImage(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file) {
+
+        return ResponseEntity.ok(productService.uploadImage(id, file));
     }
 }

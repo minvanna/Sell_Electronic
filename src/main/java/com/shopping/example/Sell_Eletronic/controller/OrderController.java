@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shopping.example.Sell_Eletronic.entity.Order;
+import com.shopping.example.Sell_Eletronic.entity.OrderDetail;
 import com.shopping.example.Sell_Eletronic.service.OrderService;
 
 @RestController
@@ -38,5 +39,9 @@ public class OrderController {
     @GetMapping("/cancel/{id}")  
     public String cancel(@PathVariable Long id) {
         return Oservice.cancel(id); 
+    }
+    @GetMapping("/detail/{orderId}")
+    public List<OrderDetail> detail(@PathVariable Long orderId) {
+        return Oservice.getorderdetail(orderId);
     }
 }

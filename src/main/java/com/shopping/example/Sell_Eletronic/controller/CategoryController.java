@@ -39,10 +39,12 @@ public class CategoryController {
 		return Cservice.update(id, category);
 		
 	}
+	
+	
+	
 	@DeleteMapping("/{id}")
 	public String delete(@PathVariable Long id) {
-		Cservice.delete(id);
-		return "Mobile";
+	    return Cservice.delete(id);
 	}
 
 }

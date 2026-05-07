@@ -31,15 +31,16 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public Category update(Long id, Category newUsername) {
-		// TODO Auto-generated method stub
-		Category F45 = Catepo.findById(id).orElse(null);
-		if(F45!=null) {
-			F45.setId(newUsername.getId());
-			F45.setName(newUsername.getName());
-			return Catepo.save(newUsername);
-		}
-		return null;
+	
+	public Category update(Long id, Category newCategory) {
+	    Category old = Catepo.findById(id).orElse(null);
+
+	    if (old != null) {
+	        old.setName(newCategory.getName());
+	        return Catepo.save(old);   
+	    }
+
+	    return null;
 	}
 
 	@Override
